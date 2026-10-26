@@ -1,0 +1,121 @@
+/* Public Sans (U.S. Web Design System typeface), self-hosted so no third-party requests leave the app. */
+@import '@fontsource/public-sans/latin-400.css';
+@import '@fontsource/public-sans/latin-500.css';
+@import '@fontsource/public-sans/latin-600.css';
+@import '@fontsource/public-sans/latin-700.css';
+
+/* ClaimFlow design tokens — a calm clinical console. Status colours carry meaning; everything else stays quiet. */
+:root {
+  --paper: #f4f7f5;
+  --surface: #ffffff;
+  --ink: #1d2a2e;
+  --ink-soft: #5b6b70;
+  --line: #dbe2df;
+  --line-strong: #c3cdc9;
+  --rail: #17282c;
+  --rail-ink: #c9d6d3;
+
+  --teal: #0f6e6a;
+  --teal-dark: #0b5451;
+  --teal-wash: #e3f0ee;
+  --green: #2e7d4f;
+  --amber: #a86a12;
+  --amber-wash: #fbf1df;
+  --red: #b42318;
+  --red-wash: #fbe9e7;
+  --indigo: #3b5ba9;
+  --gold: #f2c14e;
+
+  --radius-sm: 4px;
+  --radius: 8px;
+  --font: 'Public Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { font-size: 16px; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--paper);
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { margin: 0; line-height: 1.2; font-weight: 700; letter-spacing: -0.01em; }
+h1 { font-size: 1.75rem; }
+h2 { font-size: 1.125rem; }
+h3 { font-size: 0.9375rem; }
+p { margin: 0; }
+
+a { color: var(--teal); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:hover { color: var(--teal-dark); }
+
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+.code { font-weight: 600; letter-spacing: 0.02em; }
+.muted { color: var(--ink-soft); }
+.num { text-align: right; white-space: nowrap; }
+.nowrap { white-space: nowrap; }
+
+/* ---------- Page scaffolding ---------- */
+.page { padding: 2rem clamp(1rem, 3vw, 2.5rem) 3rem; max-width: 1280px; }
+.page-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; }
+.page-head p { color: var(--ink-soft); margin-top: 0.35rem; max-width: 62ch; }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+.panel-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 1.25rem; border-bottom: 1px solid var(--line); }
+.panel-body { padding: 1.25rem; }
+
+/* ---------- Controls ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  font: inherit; font-weight: 600; font-size: 0.875rem;
+  padding: 0.55rem 1rem; border-radius: var(--radius-sm); border: 1px solid transparent;
+  cursor: pointer; text-decoration: none; transition: background-color 120ms ease;
+}
+.btn:disabled { opacity: 0.55; cursor: not-allowed; }
+.btn-primary { background: var(--teal); color: #fff; }
+.btn-primary:hover:not(:disabled) { background: var(--teal-dark); color: #fff; }
+.btn-secondary { background: var(--surface); color: var(--ink); border-color: var(--line-strong); }
+.btn-secondary:hover:not(:disabled) { background: var(--paper); }
+.btn-danger { background: var(--red); color: #fff; }
+.btn-ghost { background: none; color: var(--teal); padding-inline: 0.5rem; }
+
+.field { display: grid; gap: 0.3rem; }
+.field label { font-weight: 600; font-size: 0.8125rem; }
+.field .hint { font-size: 0.8125rem; color: var(--ink-soft); }
+input, select, textarea {
+  font: inherit; color: inherit; background: var(--surface);
+  border: 1px solid var(--line-strong); border-radius: var(--radius-sm);
+  padding: 0.5rem 0.65rem; width: 100%;
+}
+input:focus, select:focus, textarea:focus { outline: 2px solid var(--teal); outline-offset: -1px; border-color: var(--teal); }
+input.ng-invalid.ng-touched, select.ng-invalid.ng-touched { border-color: var(--red); }
+
+.alert { padding: 0.75rem 1rem; border-radius: var(--radius-sm); border-left: 4px solid; }
+.alert ul { margin: 0.35rem 0 0; padding-left: 1.2rem; }
+.alert-error { background: var(--red-wash); border-color: var(--red); }
+.alert-warn { background: var(--amber-wash); border-color: var(--amber); }
+.alert-ok { background: var(--teal-wash); border-color: var(--teal); }
+
+/* ---------- Tables ---------- */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 0.65rem 1rem; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 0.8125rem; font-weight: 600; color: var(--ink-soft); background: var(--paper); }
+tbody tr:last-child td { border-bottom: 0; }
+tr.clickable { cursor: pointer; }
+tr.clickable:hover td { background: #f8fbfa; }
+
+.empty { padding: 2.5rem 1.25rem; text-align: center; color: var(--ink-soft); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}

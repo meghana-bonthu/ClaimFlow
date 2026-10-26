@@ -1,0 +1,46 @@
+# Full stack: SQL Server + ASP.NET Core API + Angular (nginx).
+#   docker compose up --build      then open http://localhost:4200
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${SA_PASSWORD:-ClaimFlow!Dev2026}
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqldata:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -Q 'SELECT 1' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+
+  api:
+    build:
+      context: .
+      dockerfile: src/ClaimFlow.Api/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      Database__Provider: SqlServer
+      ConnectionStrings__ClaimFlow: "Server=sqlserver,1433;Database=ClaimFlow;User Id=sa;Password=${SA_PASSWORD:-ClaimFlow!Dev2026};TrustServerCertificate=True;Encrypt=True"
+      Jwt__SigningKey: ${JWT_SIGNING_KEY:-docker-demo-signing-key-change-me-0123456789}
+      Swagger__Enabled: "true"
+      Cors__AllowedOrigins__0: http://localhost:4200
+    ports:
+      - "5080:8080"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+
+  web:
+    build:
+      context: web/claimflow-web
+    ports:
+      - "4200:80"
+    depends_on:
+      - api
+
+volumes:
+  sqldata:
